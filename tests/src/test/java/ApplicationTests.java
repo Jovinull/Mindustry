@@ -233,6 +233,25 @@ public class ApplicationTests{
     }
 
     @Test
+    void editorSectorGenerationKeepsInfo(){
+        Sector sector = SectorPresets.frozenForest.sector;
+        sector.info.spawnPosition = Point2.pack(10, 10);
+        sector.info.resources = Seq.with(Items.copper);
+
+        //same steps as SectorGenerateDialog#apply
+        var preset = sector.preset;
+        sector.preset = null;
+        world.loadSector(sector, new WorldParams(){{
+            seedOffset = 1;
+            saveInfo = false;
+        }});
+        sector.preset = preset;
+
+        assertEquals(Point2.pack(10, 10), sector.info.spawnPosition);
+        assertEquals(Seq.with(Items.copper), sector.info.resources);
+    }
+
+    @Test
     void spawnWaves(){
         world.loadMap(testMap);
         assertTrue(spawner.countSpawns() > 0, "No spawns present.");

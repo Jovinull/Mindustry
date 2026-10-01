@@ -291,7 +291,7 @@ public class World{
         //reset rules
         setSectorRules(sector, params.saveInfo);
 
-        if(state.rules.defaultTeam.core() != null){
+        if(params.saveInfo && state.rules.defaultTeam.core() != null){
             sector.info.spawnPosition = state.rules.defaultTeam.core().pos();
         }
     }
@@ -325,10 +325,10 @@ public class World{
         state.rules.env = sector.planet.defaultEnv;
         state.rules.planet = sector.planet;
         sector.planet.applyRules(state.rules, !saveInfo);
-        sector.info.resources = content.toSeq();
-        sector.info.resources.sort(Structs.comps(Structs.comparing(Content::getContentType), Structs.comparingInt(c -> c.id)));
 
         if(saveInfo){
+            sector.info.resources = content.toSeq();
+            sector.info.resources.sort(Structs.comps(Structs.comparing(Content::getContentType), Structs.comparingInt(c -> c.id)));
             sector.saveInfo();
         }
     }
