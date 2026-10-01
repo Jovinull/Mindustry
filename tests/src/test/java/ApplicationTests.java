@@ -225,6 +225,14 @@ public class ApplicationTests{
     }
 
     @Test
+    void loadSectorPreset(){
+        GameState.loadSector(SectorPresets.groundZero.sector, new WorldParams(){{
+            saveInfo = false;
+        }});
+        assertFalse(state.teams.playerCores().isEmpty());
+    }
+
+    @Test
     void spawnWaves() throws Throwable{
         GameState.loadMap(testMap);
         assertTrue(state.spawner.countSpawns() > 0, "No spawns present.");
